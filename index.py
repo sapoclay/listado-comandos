@@ -1,3 +1,24 @@
+import os
+import webbrowser
+
+def buscar_en_google():
+    # Solicita al usuario el término de búsqueda
+    busqueda = input("Escribe el término de búsqueda: ")
+    # Crea la URL de búsqueda en Google con el término ingresado
+    url = f"https://www.google.com/search?q={busqueda}"
+    # Abre la URL en el navegador web predeterminado
+    webbrowser.open(url)
+    print("------------------------------------")
+    print("Búsqueda realizada en Google con éxito")
+    print("------------------------------------")
+
+def borrar_pantalla():
+    # Limpia la pantalla según el sistema operativo
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("-----------------------------")
+    print("Pantalla borrada exitosamente")
+    print("-----------------------------")
+
 def guardar_comando():
     # Solicita al usuario que ingrese el comando a guardar
     comando = input("Escribe el comando: ")
@@ -224,15 +245,17 @@ def eliminar_comando():
 
 # Menú principal
 while True:
-    print("---------------------")
-    print("MENÚ - SIN GLUTEN -")
-    print("---------------------")
+    print("-----------------------")
+    print("| MENÚ - SIN GLUTEN - |")
+    print("-----------------------")
     print("1. Guardar comando")
     print("2. Consultar comandos")
     print("3. Editar comando")
     print("4. Buscar comandos")
     print("5. Eliminar comando")
-    print("6. Salir")
+    print("6. Buscar en Google")
+    print("7. Borrar pantalla")
+    print("8. Salir")
     opcion = input("Selecciona una opción: ")
     if opcion == "1":
         guardar_comando()
@@ -245,6 +268,10 @@ while True:
     elif opcion == "5":
         eliminar_comando()
     elif opcion == "6":
+        buscar_en_google()
+    elif opcion == "7":
+        borrar_pantalla()
+    elif opcion == "8":
         break
     else:
         print("Opción inválida. ¡¡ No seas ocurrente y selecciona una opción válida!!.")
