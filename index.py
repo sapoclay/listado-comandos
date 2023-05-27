@@ -8,16 +8,16 @@ def buscar_en_google():
     url = f"https://www.google.com/search?q={busqueda}"
     # Abre la URL en el navegador web predeterminado
     webbrowser.open(url)
-    print("------------------------------------")
-    print("Búsqueda realizada en Google con éxito")
-    print("------------------------------------")
+    print("------------------------------------------")
+    print("| Búsqueda realizada en Google con éxito |")
+    print("------------------------------------------")
 
 def borrar_pantalla():
     # Limpia la pantalla según el sistema operativo
     os.system('cls' if os.name == 'nt' else 'clear')
-    print("-----------------------------")
-    print("Pantalla borrada exitosamente")
-    print("-----------------------------")
+    print("---------------------------------")
+    print("| Pantalla borrada exitosamente |")
+    print("---------------------------------")
 
 def guardar_comando():
     # Solicita al usuario que ingrese el comando a guardar
@@ -31,9 +31,9 @@ def guardar_comando():
         # Agrega también un salto de línea "\n" para separar los comandos en el archivo
         archivo.write(comando + "\t" + definicion + "\n")
     # Imprime un mensaje de confirmación indicando que el comando se ha guardado exitosamente
-    print("------------------------------")
-    print("Comando guardado con éxito!!")
-    print("------------------------------")
+    print("--------------------------------")
+    print("| Comando guardado con éxito!! |")
+    print("--------------------------------")
 
 
 def consultar_comandos():
@@ -71,9 +71,9 @@ def consultar_comandos():
                         "-------------------------------------------------------------------")
         else:
             # Imprime un mensaje indicando que no hay comandos guardados
-            print("--------------------------")
-            print("¡¡ No hay comandos guardados !!")
-            print("--------------------------")
+            print("-----------------------------------")
+            print("| ¡¡ No hay comandos guardados !! |")
+            print("-----------------------------------")
 
 
 def editar_comando():
@@ -109,9 +109,9 @@ def editar_comando():
             with open("comandos.txt", "w") as archivo:
                 # Escribe las líneas actualizadas de comandos en el archivo
                 archivo.writelines(comandos)
-            print("-----------------------------")
-            print("Comando editado exitosamente.")
-            print("-----------------------------")
+            print("--------------------------------")
+            print("| Comando editado exitosamente |")
+            print("--------------------------------")
         else:
             print(
                 "-----------------------------------------------------------------------------------------")
@@ -120,9 +120,9 @@ def editar_comando():
             print(
                 "-----------------------------------------------------------------------------------------")
     else:
-        print("----------------------------------------------------------------")
-        print("Número de comando inválido. ¡¡ Fíjate un poco y escribe un número válido !!")
-        print("----------------------------------------------------------------")
+        print("-------------------------------------------------------------------------------")
+        print("| Número de comando inválido. ¡¡ Fíjate un poco y escribe un número válido !! |")
+        print("-------------------------------------------------------------------------------")
 
 
 def buscar_comandos():
@@ -153,9 +153,9 @@ def buscar_comandos():
                     encontrados = True
             # Si no se encontraron comandos con la definición buscada, imprime un mensaje
             if not encontrados:
-                print("----------------------------------------------")
-                print("No se encontraron comandos con esa definición.")
-                print("----------------------------------------------")
+                print("-------------------------------------------------")
+                print("| No se encontraron comandos con esa definición |")
+                print("-------------------------------------------------")
     elif opcion == "2":
         # Si la opción seleccionada es 2 (buscar por nombre)
         nombre = input("Ingresa el nombre a buscar: ")
@@ -177,13 +177,13 @@ def buscar_comandos():
                     print("-" * 40)
                     encontrados = True
             if not encontrados:
-                print("------------------------------------------")
-                print("No se encontraron comandos con ese nombre.")
-                print("------------------------------------------")
+                print("---------------------------------------------")
+                print("| No se encontraron comandos con ese nombre |")
+                print("---------------------------------------------")
     else:
-        print("---------------------------------------------------------")
-        print("¡¡ Opción inválida !! No seas cabezón y selecciona una opción válida.")
-        print("---------------------------------------------------------")
+        print("------------------------------------------------------------------------")
+        print("| ¡¡ Opción inválida !! No seas cabezón y selecciona una opción válida |")
+        print("------------------------------------------------------------------------")
 
 
 def eliminar_comando():
@@ -193,7 +193,9 @@ def eliminar_comando():
         comandos = archivo.readlines()
     if comandos:
         # Si existen comandos en la lista
-        print("Comandos disponibles para eliminar:")
+        print("---------------------------------------")
+        print("| Comandos disponibles para eliminar: |")
+        print("---------------------------------------")
         # Itera sobre cada comando en la lista de comandos con su índice correspondiente
         for i, comando in enumerate(comandos):
             # Elimina los espacios en blanco al principio y al final del comando
@@ -227,21 +229,21 @@ def eliminar_comando():
                 with open("comandos.txt", "w") as archivo:
                     # Escribe las líneas actualizadas de comandos en el archivo
                     archivo.writelines(comandos)
-                print("-------------------------------")
-                print("¡¡ Comando eliminado exitosamente !!")
-                print("-------------------------------")
+                print("----------------------------------------")
+                print("| ¡¡ Comando eliminado exitosamente !! |")
+                print("----------------------------------------")
             else:
-                print("-------------------")
-                print("¡¡ Selección inválida !!")
-                print("-------------------")
+                print("----------------------------")
+                print("| ¡¡ Selección inválida !! |")
+                print("----------------------------")
         except ValueError:
-            print("-------------------")
-            print("¡¡ Selección inválida !!")
-            print("-------------------")
+            print("----------------------------")
+            print("| ¡¡ Selección inválida !! |")
+            print("----------------------------")
     else:
-        print("--------------------------")
-        print("No hay comandos guardados.")
-        print("--------------------------")
+        print("-----------------------------")
+        print("| No hay comandos guardados |")
+        print("-----------------------------")
 
 # Menú principal
 while True:
@@ -274,4 +276,6 @@ while True:
     elif opcion == "8":
         break
     else:
-        print("Opción inválida. ¡¡ No seas ocurrente y selecciona una opción válida!!.")
+        print("--------------------------------------------------------------------------")
+        print("| Opción inválida. ¡¡ No seas ocurrente y selecciona una opción válida!! |")
+        print("--------------------------------------------------------------------------")
