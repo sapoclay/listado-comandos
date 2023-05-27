@@ -37,6 +37,12 @@ def guardar_concepto():
     # Solicitamos al usuario que escriba el concepto a guardar
     comando = input(f"{COLOR_NARANJA}-> Escribe del concepto: {COLOR_RESET}")
 
+    # Verificamos si el archivo "conceptos.txt" existe
+    if not os.path.exists("conceptos.txt"):
+        # Si el archivo no existe, lo creamos
+        with open("conceptos.txt", "w") as archivo:
+            archivo.write("")  # Escribimos una cadena vacía para crear el archivo
+
     # Abre el archivo "conceptos.txt" en modo lectura
     with open("conceptos.txt", "r") as archivo:
         # Lee el contenido del archivo y comprueba si el concepto ya existe
