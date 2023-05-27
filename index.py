@@ -286,7 +286,7 @@ while True:
     print(f"{TEXTO_SUBRAYADO} Bajo un sistema {sistema_operativo} {COLOR_RESET}")
     print("-----------------------")
     print(f"{TEXTO_NEGRITA}1. Guardar concepto{COLOR_RESET}")
-    print(f"{TEXTO_NEGRITA}2. Consultar concepto{COLOR_RESET}")
+    print(f"{TEXTO_NEGRITA}2. Consultar conceptos{COLOR_RESET}")
     print(f"{TEXTO_NEGRITA}3. Editar concepto{COLOR_RESET}")
     print(f"{TEXTO_NEGRITA}4. Buscar concepto{COLOR_RESET}")
     print(f"{TEXTO_NEGRITA}5. Eliminar concepto{COLOR_RESET}")
