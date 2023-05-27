@@ -1,40 +1,64 @@
 import os
 import webbrowser
+import platform
+
+# Guardamos el sistema operativo sobre el que está funcionando el scritp
+sistema_operativo = platform.system()
+
+# Códigos de escape ANSI para colores
+COLOR_RESET = "\033[0m"
+COLOR_VERDE = "\033[32m"
+COLOR_AMARILLO = "\033[33m"
+COLOR_ROJO = "\033[31m"
+COLOR_CIAN = "\033[36m"
+COLOR_NARANJA = "\033[38;5;208m"
+TEXTO_NEGRITA = "\033[1m"
+TEXTO_SUBRAYADO = "\033[4m"
 
 def buscar_en_google():
     # Solicita al usuario el término de búsqueda
-    busqueda = input("Escribe el término de búsqueda: ")
+    busqueda = input(f"{COLOR_NARANJA}Escribe el término de búsqueda: {COLOR_RESET}")
     # Crea la URL de búsqueda en Google con el término ingresado
     url = f"https://www.google.com/search?q={busqueda}"
     # Abre la URL en el navegador web predeterminado
     webbrowser.open(url)
-    print("------------------------------------------")
-    print("| Búsqueda realizada en Google con éxito |")
-    print("------------------------------------------")
+    print(f"{COLOR_AMARILLO}------------------------------------------{COLOR_RESET}")
+    print(f"{COLOR_AMARILLO}| Búsqueda realizada en Google con éxito |{COLOR_RESET}")
+    print(f"{COLOR_AMARILLO}------------------------------------------{COLOR_RESET}")
 
 def borrar_pantalla():
     # Limpia la pantalla según el sistema operativo
     os.system('cls' if os.name == 'nt' else 'clear')
-    print("---------------------------------")
-    print("| Pantalla borrada exitosamente |")
-    print("---------------------------------")
+    print(f"{COLOR_VERDE}---------------------------------{COLOR_RESET}")
+    print(f"{COLOR_VERDE}| Pantalla borrada exitosamente |{COLOR_RESET}")
+    print(f"{COLOR_VERDE}---------------------------------{COLOR_RESET}")
 
 def guardar_comando():
-    # Solicita al usuario que ingrese el comando a guardar
-    comando = input("Escribe el comando: ")
-    # Solicita al usuario que ingrese la definición del comando
-    definicion = input("Escribe la definición del comando: ")
-    # Abre el archivo "comandos.txt" en modo de apendizaje (append)
-    # El modo de apendizaje permite agregar contenido al final del archivo sin sobrescribirlo
-    with open("comandos.txt", "a") as archivo:
-        # Escribe el comando y la definición en el archivo, separados por un tabulador "\t"
-        # Agrega también un salto de línea "\n" para separar los comandos en el archivo
-        archivo.write(comando + "\t" + definicion + "\n")
-    # Imprime un mensaje de confirmación indicando que el comando se ha guardado exitosamente
-    print("--------------------------------")
-    print("| Comando guardado con éxito!! |")
-    print("--------------------------------")
+    # Solicitamos al usuario que escriba el concepto a guardar
+    comando = input(f"{COLOR_NARANJA}-> Escribe del concepto: {COLOR_RESET}")
 
+    # Abre el archivo "comandos.txt" en modo lectura
+    with open("comandos.txt", "r") as archivo:
+        # Lee el contenido del archivo y comprueba si el concepto ya existe
+        comandos_existentes = [line.split("\t")[0] for line in archivo]
+        if comando in comandos_existentes:
+            # Devuele el mensaje si el concepto existe dentro del archivo txt
+            print(f"{COLOR_ROJO}------------------------------------------------{COLOR_RESET}")
+            print(f"{COLOR_ROJO}| El concepto ya existe. Modifica su definción |{COLOR_RESET}")
+            print(f"{COLOR_ROJO}------------------------------------------------{COLOR_RESET}")
+            return
+    # Solicitamos al usuario que escriba la definición del concepto
+    definicion = input(f"{COLOR_NARANJA}-> Escribe la definición del concepto: {COLOR_RESET}")
+    # Abre el archivo "comandos.txt" en modo de apendizaje (append)
+    # El modo de apendizaje permite añadir contenido al final del archivo sin sobrescribirlo
+    with open("comandos.txt", "a") as archivo:
+        # Escribe el concepto y la definición en el archivo, separados por un tabulador "\t"
+        # Añade también un salto de línea "\n" para separar los comandos en el archivo
+        archivo.write(comando + "\t" + definicion + "\n")
+    # Imprime un mensaje de confirmación indicando que el comando se ha guardado correctamente
+    print(f"{COLOR_VERDE}--------------------------------{COLOR_RESET}")
+    print(f"{COLOR_VERDE}| Concepto guardado con éxito!! |{COLOR_RESET}")
+    print(f"{COLOR_VERDE}--------------------------------{COLOR_RESET}")
 
 def consultar_comandos():
     # Abre el archivo "comandos.txt" en modo de lectura (read)
@@ -43,7 +67,9 @@ def consultar_comandos():
         comandos = archivo.readlines()
         # Verifica si hay comandos en la lista
         if comandos:
-            print("Comandos guardados:")
+            print(f"{COLOR_CIAN}-----------------------{COLOR_RESET}")
+            print(f"{COLOR_CIAN}| Comandos guardados: |{COLOR_RESET}")
+            print(f"{COLOR_CIAN}-----------------------{COLOR_RESET}")
             # Itera sobre cada comando en la lista de comandos con su índice correspondiente
             for i, comando in enumerate(comandos):
                 # Elimina los espacios en blanco y caracteres de nueva línea al inicio y final del comando
@@ -57,28 +83,28 @@ def consultar_comandos():
                     # Une los elementos restantes de la lista como la definición, separados por un tabulador "\t"
                     definicion = "\t".join(comando_info[1:])
                     # Imprime el número de comando, el comando y su definición
-                    print(f"{i+1}. Comando: {comando}")
-                    print(f"   Definición: {definicion}")
+                    print(f"{TEXTO_NEGRITA}{i+1}. Comando:{COLOR_RESET} {comando}")
+                    print(f"{TEXTO_NEGRITA}   Definición: {COLOR_RESET}{definicion}")
                     # Imprime una línea de separación para cada comando
                     print("-" * 40)
                 else:
                     # Imprime un mensaje de error indicando que el comando no tiene un formato válido
                     print(
-                        "-------------------------------------------------------------------")
+                        f"{COLOR_ROJO}-------------------------------------------------------------------{COLOR_RESET}")
                     print(
-                        f"El comando en la línea {i+1} no tiene un formato válido: {comando}")
+                        f"{COLOR_ROJO}El comando en la línea {i+1} no tiene un formato válido: {comando}{COLOR_RESET}")
                     print(
-                        "-------------------------------------------------------------------")
+                        f"{COLOR_ROJO}-------------------------------------------------------------------{COLOR_RESET}")
         else:
             # Imprime un mensaje indicando que no hay comandos guardados
-            print("-----------------------------------")
-            print("| ¡¡ No hay comandos guardados !! |")
-            print("-----------------------------------")
+            print(f"{COLOR_ROJO}-----------------------------------{COLOR_RESET}")
+            print(f"{COLOR_ROJO}| ¡¡ No hay comandos guardados !! {COLOR_RESET}")
+            print(f"{COLOR_ROJO}-----------------------------------{COLOR_RESET}")
 
 
 def editar_comando():
     # Solicita al usuario el número del comando a editar y resta 1 para obtener el índice correspondiente
-    numero_comando = int(input("Escribe el número del comando a editar: ")) - 1
+    numero_comando = int(input(f"{COLOR_NARANJA}-> Escribe el número del comando a editar: {COLOR_RESET}")) - 1
     # Abre el archivo "comandos.txt" en modo de lectura (read)
     with open("comandos.txt", "r") as archivo:
         # Lee todas las líneas del archivo y las guarda en la variable "comandos" como una lista de strings
@@ -93,12 +119,12 @@ def editar_comando():
             comando = comando_info[0]
             definicion = "\t".join(comando_info[1:])
             # Imprime el comando actual y su definición
-            print(f"Comando actual: {comando}")
-            print(f"Definición actual: {definicion}")
+            print(f"-> Comando actual: {comando}")
+            print(f"-> Definición actual: {definicion}")
             # Solicita al usuario ingresar el nuevo comando (o presionar Enter para mantener el actual)
-            nuevo_comando = input("Teclea el nuevo comando (o presione Enter para mantener el actual): ")
+            nuevo_comando = input(f"{COLOR_NARANJA}* Teclea el nuevo comando (o presione Enter para mantener el actual): {COLOR_RESET}")
             # Solicita al usuario ingresar la nueva definición (o presionar Enter para mantener la actual)
-            nueva_definicion = input("Escribe la nueva definición (o presione Enter para mantener la actual): ")
+            nueva_definicion = input(f"{COLOR_NARANJA}* Escribe la nueva definición (o presione Enter para mantener la actual): {COLOR_RESET}")
             if nuevo_comando == "":
                 nuevo_comando = comando  # Si no se ingresa un nuevo comando, se mantiene el actual
             if nueva_definicion == "":
@@ -109,20 +135,20 @@ def editar_comando():
             with open("comandos.txt", "w") as archivo:
                 # Escribe las líneas actualizadas de comandos en el archivo
                 archivo.writelines(comandos)
-            print("--------------------------------")
-            print("| Comando editado exitosamente |")
-            print("--------------------------------")
+            print(f"{COLOR_VERDE}--------------------------------{COLOR_RESET}")
+            print(f"{COLOR_VERDE}| Comando editado exitosamente |{COLOR_RESET}")
+            print(f"{COLOR_VERDE}--------------------------------{COLOR_RESET}")
         else:
             print(
-                "-----------------------------------------------------------------------------------------")
+                f"{COLOR_ROJO}-----------------------------------------------------------------------------------------{COLOR_RESET}")
             print(
-                f"El comando en la línea {numero_comando + 1} no tiene un formato válido: {comando_actual}")
+                f"{COLOR_ROJO}El comando en la línea {numero_comando + 1} no tiene un formato válido: {comando_actual}{COLOR_RESET}")
             print(
-                "-----------------------------------------------------------------------------------------")
+                f"{COLOR_ROJO}-----------------------------------------------------------------------------------------{COLOR_RESET}")
     else:
-        print("-------------------------------------------------------------------------------")
-        print("| Número de comando inválido. ¡¡ Fíjate un poco y escribe un número válido !! |")
-        print("-------------------------------------------------------------------------------")
+        print(f"{COLOR_ROJO}-------------------------------------------------------------------------------{COLOR_RESET}")
+        print(f"{COLOR_ROJO}| Número de comando inválido. ¡¡ Fíjate un poco y escribe un número válido !! |{COLOR_RESET}")
+        print(f"{COLOR_ROJO}-------------------------------------------------------------------------------{COLOR_RESET}")
 
 
 def buscar_comandos():
@@ -131,7 +157,7 @@ def buscar_comandos():
         "1. Buscar por definición\n2. Buscar por nombre\nSelecciona una opción: ")
     if opcion == "1":
         # Si la opción seleccionada es 1 (buscar por definición)
-        definicion = input("Escribe la definición a buscar: ")
+        definicion = input(f"{COLOR_NARANJA}Escribe la definición a buscar: {COLOR_RESET}")
         # Abre el archivo "comandos.txt" en modo de lectura (read)
         with open("comandos.txt", "r") as archivo:
             # Lee todas las líneas del archivo y las guarda en la variable "comandos" como una lista de strings
@@ -153,12 +179,12 @@ def buscar_comandos():
                     encontrados = True
             # Si no se encontraron comandos con la definición buscada, imprime un mensaje
             if not encontrados:
-                print("-------------------------------------------------")
-                print("| No se encontraron comandos con esa definición |")
-                print("-------------------------------------------------")
+                print(f"{COLOR_ROJO}-------------------------------------------------{COLOR_RESET}")
+                print(f"{COLOR_ROJO}| No se encontraron comandos con esa definición |{COLOR_RESET}")
+                print(f"{COLOR_ROJO}-------------------------------------------------{COLOR_RESET}")
     elif opcion == "2":
         # Si la opción seleccionada es 2 (buscar por nombre)
-        nombre = input("Ingresa el nombre a buscar: ")
+        nombre = input(f"{COLOR_NARANJA}-> Escribe el nombre a buscar: {COLOR_RESET}")
         # Abre el archivo "comandos.txt" en modo de lectura (read)
         with open("comandos.txt", "r") as archivo:
             # Lee todas las líneas del archivo y las guarda en la variable "comandos" como una lista de strings
@@ -177,13 +203,13 @@ def buscar_comandos():
                     print("-" * 40)
                     encontrados = True
             if not encontrados:
-                print("---------------------------------------------")
-                print("| No se encontraron comandos con ese nombre |")
-                print("---------------------------------------------")
+                print(f"{COLOR_ROJO}---------------------------------------------{COLOR_RESET}")
+                print(f"{COLOR_ROJO}| No se encontraron comandos con ese nombre |{COLOR_RESET}")
+                print(f"{COLOR_ROJO}---------------------------------------------{COLOR_RESET}")
     else:
-        print("------------------------------------------------------------------------")
-        print("| ¡¡ Opción inválida !! No seas cabezón y selecciona una opción válida |")
-        print("------------------------------------------------------------------------")
+        print(f"{COLOR_ROJO}------------------------------------------------------------------------{COLOR_RESET}")
+        print(f"{COLOR_ROJO}| ¡¡ Opción inválida !! No seas cabezón y selecciona una opción válida |{COLOR_RESET}")
+        print(f"{COLOR_ROJO}------------------------------------------------------------------------{COLOR_RESET}")
 
 
 def eliminar_comando():
@@ -193,9 +219,9 @@ def eliminar_comando():
         comandos = archivo.readlines()
     if comandos:
         # Si existen comandos en la lista
-        print("---------------------------------------")
-        print("| Comandos disponibles para eliminar: |")
-        print("---------------------------------------")
+        print(f"{COLOR_AMARILLO}---------------------------------------{COLOR_RESET}")
+        print(f"{COLOR_AMARILLO}| Comandos disponibles para eliminar: |{COLOR_RESET}")
+        print(f"{COLOR_AMARILLO}---------------------------------------{COLOR_RESET}")
         # Itera sobre cada comando en la lista de comandos con su índice correspondiente
         for i, comando in enumerate(comandos):
             # Elimina los espacios en blanco al principio y al final del comando
@@ -213,11 +239,11 @@ def eliminar_comando():
                 print("-" * 40)
             else:
                 # Si el comando no tiene un formato válido, imprime un mensaje de error
-                print("-------------------------------------------------------------------")
-                print(f"El comando en la línea {i+1} no tiene un formato válido: {comando}")
-                print("-------------------------------------------------------------------")
+                print(f"{COLOR_ROJO}-------------------------------------------------------------------{COLOR_RESET}")
+                print(f"{COLOR_ROJO}El comando en la línea {i+1} no tiene un formato válido: {comando}{COLOR_RESET}")
+                print(f"{COLOR_ROJO}-------------------------------------------------------------------{COLOR_RESET}")
         # Solicita al usuario seleccionar el número del comando que desea eliminar
-        seleccion = input("Selecciona el número del comando que deseas eliminar (o '0' para cancelar): ")
+        seleccion = input(f"{COLOR_NARANJA}-> Selecciona el número del comando que quieras eliminar (o '0' para cancelar): {COLOR_RESET}")
         if seleccion == "0":
             return  # Si la selección es 0, se cancela la eliminación
         try:
@@ -229,36 +255,39 @@ def eliminar_comando():
                 with open("comandos.txt", "w") as archivo:
                     # Escribe las líneas actualizadas de comandos en el archivo
                     archivo.writelines(comandos)
-                print("----------------------------------------")
-                print("| ¡¡ Comando eliminado exitosamente !! |")
-                print("----------------------------------------")
+                print(f"{COLOR_VERDE}----------------------------------------{COLOR_RESET}")
+                print(f"{COLOR_VERDE}| ¡¡ Comando eliminado exitosamente !! |{COLOR_RESET}")
+                print(f"{COLOR_VERDE}----------------------------------------{COLOR_RESET}")
             else:
-                print("----------------------------")
-                print("| ¡¡ Selección inválida !! |")
-                print("----------------------------")
+                print(f"{COLOR_ROJO}----------------------------{COLOR_RESET}")
+                print(f"{COLOR_ROJO}| ¡¡ Selección inválida !! |{COLOR_RESET}")
+                print(f"{COLOR_ROJO}----------------------------{COLOR_RESET}")
         except ValueError:
-            print("----------------------------")
-            print("| ¡¡ Selección inválida !! |")
-            print("----------------------------")
+            print(f"{COLOR_ROJO}----------------------------{COLOR_RESET}")
+            print(f"{COLOR_ROJO}| ¡¡ Selección inválida !! |{COLOR_RESET}")
+            print(f"{COLOR_ROJO}----------------------------{COLOR_RESET}")
     else:
-        print("-----------------------------")
-        print("| No hay comandos guardados |")
-        print("-----------------------------")
+        print(f"{COLOR_AMARILLO}-----------------------------{COLOR_RESET}")
+        print(f"{COLOR_AMARILLO}| No hay comandos guardados |{COLOR_RESET}")
+        print(f"{COLOR_AMARILLO}-----------------------------{COLOR_RESET}")
 
 # Menú principal
 while True:
+
+    print(f"{COLOR_CIAN}-----------------------{COLOR_RESET}")
+    print(f"{COLOR_CIAN}| MENÚ - SIN GLUTEN - |{COLOR_RESET}")
+    print(f"{COLOR_CIAN}-----------------------{COLOR_RESET}")
+    print(f"{TEXTO_SUBRAYADO} Bajo un sistema {sistema_operativo} {COLOR_RESET}")
     print("-----------------------")
-    print("| MENÚ - SIN GLUTEN - |")
-    print("-----------------------")
-    print("1. Guardar comando")
-    print("2. Consultar comandos")
-    print("3. Editar comando")
-    print("4. Buscar comandos")
-    print("5. Eliminar comando")
-    print("6. Buscar en Google")
-    print("7. Borrar pantalla")
-    print("8. Salir")
-    opcion = input("Selecciona una opción: ")
+    print(f"{TEXTO_NEGRITA}1. Guardar comando{COLOR_RESET}")
+    print(f"{TEXTO_NEGRITA}2. Consultar comandos{COLOR_RESET}")
+    print(f"{TEXTO_NEGRITA}3. Editar comando{COLOR_RESET}")
+    print(f"{TEXTO_NEGRITA}4. Buscar comandos{COLOR_RESET}")
+    print(f"{TEXTO_NEGRITA}5. Eliminar comando{COLOR_RESET}")
+    print(f"{TEXTO_NEGRITA}6. Buscar en Google{COLOR_RESET}")
+    print(f"{TEXTO_NEGRITA}7. Borrar pantalla{COLOR_RESET}")
+    print(f"{TEXTO_NEGRITA}8. Salir{COLOR_RESET}")
+    opcion = input(f"{COLOR_NARANJA}-> Selecciona una opción: {COLOR_RESET}")
     if opcion == "1":
         guardar_comando()
     elif opcion == "2":
@@ -276,6 +305,6 @@ while True:
     elif opcion == "8":
         break
     else:
-        print("--------------------------------------------------------------------------")
-        print("| Opción inválida. ¡¡ No seas ocurrente y selecciona una opción válida!! |")
-        print("--------------------------------------------------------------------------")
+        print(f"{COLOR_AMARILLO}--------------------------------------------------------------------------{COLOR_RESET}")
+        print(f"{COLOR_AMARILLO}| Opción inválida. ¡¡ No seas ocurrente y selecciona una opción válida!! |{COLOR_RESET}")
+        print(f"{COLOR_AMARILLO}--------------------------------------------------------------------------{COLOR_RESET}")
